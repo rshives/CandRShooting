@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="net.candrsolutions.candrshooting"
+      android:versionCode="2"
+      android:versionName="2.0">
+    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="13" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+
+    <application android:icon="@drawable/icon" 
+    			 android:label="@string/app_name" 
+    			 android:debuggable="false">
+    			 
+        <!-- <activity android:name="MainActivity"  -->
+        <activity android:name="MatchFragmentActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- This activity will display the details of a Match Result or a Drill -->
+        <activity android:name=".DetailsActivity"
+            	  android:label="Details">
+            
+        </activity>
+        
+		<!-- This activity will display a list of database records.
+			 The list will consist of records of the mimeType passed in. -->
+		<activity android:name=".ShooterList"
+				  android:label="@string/title_list"
+				  android:screenOrientation="portrait">
+			
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+				<action android:name="android.intent.action.PICK"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<data android:mimeType="vnd.android.cursor.dir/vnd.candrsolutions.drill"/>
+				<data android:mimeType="vnd.android.cursor.dir/vnd.candrsolutions.match_result"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".ShooterEditor"
+				  android:label="@string/title_edit"
+				  android:screenOrientation="portrait">
+				  
+			   <!-- This filter says that we can view or edit the data of a single Drill Log Entry  --> 
+			  <intent-filter>
+			  	<action android:name="android.intent.action.VIEW"/>
+			  	<action android:name="android.intent.action.EDIT"/>
+			  	<action android:name="net.candrsolutions.candrshooting.action.EDIT_ENTRY"/>
+			  	<category android:name="android.intent.category.DEFAULT"/>
+			  	<data android:mimeType="vnd.android.cursor.item/vnd.candrsolutions.drill"/>
+			  	<data android:mimeType="vnd.android.cursor.item/vnd.candrsolutions.match_result"/>
+			  </intent-filter> 
+			  
+			  <!-- This filter says that we can create a new entry inside a directory of entries.
+			  		The INSERT action creates an empty Drill Log entry.   --> 
+			  <intent-filter >
+			  	<action android:name="android.intent.action.INSERT"/>
+			  	<category android:name="android.intent.category.DEFAULT"/>
+			  	<data android:mimeType="vnd.android.cursor.dir/vnd.candrsolutions.drill"/>
+			  	<data android:mimeType="vnd.android.cursor.dir/vnd.candrsolutions.match_result"/>
+			  </intent-filter>
+		</activity>
+		
+		<provider android:name=".DrillProvider"
+				  android:authorities="net.candrsolutions.provider.Drill"
+				  android:exported="false" >
+				  
+			<grant-uri-permission android:pathPattern="*/*" />
+		</provider>
+		
+		<provider android:name=".MatchProvider"
+				  android:authorities="net.candrsolutions.provider.Match"
+				  android:exported="false" >
+				  
+			<grant-uri-permission android:pathPattern="*/*" />
+		</provider>
+    </application>
+</manifest>
